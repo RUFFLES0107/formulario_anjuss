@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anjuss | Fale com a gente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Archivo+Black&family=Archivo:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --preto: #0c0c0c;
+    --papel: #e9e7df;
+    --alien: #8dff2e;
+    --concreto: #8b8b84;
+    --erro: #ff3b30;
+    --gotico: "UnifrakturCook", "Old English Text MT", "Textur", Georgia, serif;
+    --impacto: "Archivo Black", Impact, "Arial Black", sans-serif;
+    --texto: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 28px 16px;
+    background: var(--concreto) radial-gradient(rgba(0,0,0,.22) 1px, transparent 1.4px) 0 0 / 7px 7px;
+    color: var(--preto);
+    font-family: var(--texto);
+  }
+
+  .cartao {
+    width: 100%;
+    max-width: 1020px;
+    display: grid;
+    grid-template-columns: 5fr 6fr;
+    border: 4px solid var(--preto);
+    background: var(--papel);
+    box-shadow: 14px 14px 0 var(--preto);
+  }
+
+  /* ---------- lateral ---------- */
+  .lateral {
+    position: relative;
+    padding: 44px 38px;
+    color: #fff;
+    background: var(--preto) radial-gradient(rgba(255,255,255,.12) 1px, transparent 1.4px) 0 0 / 8px 8px;
+    border-right: 4px solid var(--preto);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 28px;
+    min-height: 620px;
+  }
+  .logo { margin: 0; font-family: var(--gotico); font-size: 4.2rem; line-height: .95; font-weight: 700; letter-spacing: .01em; }
+  .desde { display: inline-block; margin: 8px 0 30px; padding: 3px 10px; background: var(--alien); color: var(--preto); font-family: var(--impacto); font-size: .85rem; transform: rotate(-2deg); }
+  .lateral h1 { margin: 0 0 12px; font-family: var(--impacto); font-size: 2rem; line-height: 1.05; font-weight: 400; }
+  .lateral p { margin: 0; max-width: 30ch; line-height: 1.55; color: #d4d4cc; }
+  .topo { position: relative; z-index: 2; }
+
+  .alien {
+    position: absolute;
+    right: -14px; bottom: 150px;
+    width: 150px;
+    z-index: 1;
+    filter: drop-shadow(0 0 0 #fff) drop-shadow(3px 3px 0 rgba(0,0,0,.7));
+    animation: cola .7s cubic-bezier(.3, 1.6, .5, 1) .2s both;
+  }
+  @keyframes cola {
+    from { opacity: 0; transform: translateY(-80px) rotate(-30deg) scale(1.4); }
+    to   { opacity: 1; transform: rotate(9deg); }
+  }
+
+  .base { position: relative; z-index: 2; display: grid; gap: 16px; }
+  .lojas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .loja { padding: 10px 12px; border: 2px solid #fff; font-size: .85rem; line-height: 1.35; background: var(--preto); }
+  .loja b { display: block; margin-bottom: 2px; font-family: var(--impacto); font-weight: 400; font-size: 1rem; color: var(--alien); }
+  .contatos { display: grid; gap: 8px; font-size: .92rem; }
+  .contatos div { display: flex; gap: 10px; align-items: center; }
+  .contatos svg { width: 18px; height: 18px; flex: none; stroke: var(--alien); fill: none; stroke-width: 2; stroke-linecap: square; stroke-linejoin: miter; }
+
+  /* ---------- formulário ---------- */
+  .area-form { padding: 44px 42px; }
+  .area-form h2 { margin: 0 0 6px; font-family: var(--impacto); font-weight: 400; font-size: 1.9rem; line-height: 1.05; }
+  .area-form .sub { margin: 0 0 26px; color: #4a4a45; font-size: .95rem; }
+
+  .duas { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .campo { position: relative; margin-bottom: 14px; }
+
+  .campo input, .campo select, .campo textarea {
+    width: 100%;
+    padding: 23px 12px 7px;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--preto);
+    background: #fff;
+    border: 3px solid var(--preto);
+    border-radius: 0;
+    transition: box-shadow .12s, transform .12s;
+  }
+  .campo textarea { min-height: 120px; resize: vertical; }
+  .campo select { appearance: none; padding-right: 38px; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' fill='none' stroke='%230c0c0c' stroke-width='3'%3E%3Cpath d='M1 1l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; }
+
+  .campo label {
+    position: absolute;
+    left: 15px; top: 16px;
+    color: #55554f;
+    font-size: 1rem;
+    pointer-events: none;
+    transform-origin: left top;
+    transition: transform .15s;
+  }
+  .campo input:focus + label,
+  .campo input:not(:placeholder-shown) + label,
+  .campo textarea:focus + label,
+  .campo textarea:not(:placeholder-shown) + label,
+  .campo select + label { transform: translateY(-10px) scale(.76); font-weight: 600; }
+
+  .campo input:focus, .campo select:focus, .campo textarea:focus {
+    outline: none;
+    transform: translate(-3px, -3px);
+    box-shadow: 6px 6px 0 var(--alien), 6px 6px 0 3px var(--preto);
+  }
+  .campo input:user-invalid, .campo textarea:user-invalid { border-color: var(--erro); box-shadow: 4px 4px 0 var(--erro); }
+
+  .contador { position: absolute; right: 12px; bottom: 8px; font-size: .75rem; color: #55554f; }
+
+  .aceite { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 22px; font-size: .88rem; color: #3b3b37; line-height: 1.4; }
+  .aceite input { width: 20px; height: 20px; margin-top: 1px; accent-color: var(--preto); flex: none; }
+
+  button {
+    width: 100%;
+    padding: 16px 24px;
+    border: 3px solid var(--preto);
+    border-radius: 0;
+    background: var(--preto);
+    color: var(--alien);
+    font-family: var(--impacto);
+    font-size: 1.05rem;
+    cursor: pointer;
+    box-shadow: 6px 6px 0 var(--alien), 6px 6px 0 3px var(--preto);
+    transition: transform .1s, box-shadow .1s;
+  }
+  button:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--alien), 8px 8px 0 3px var(--preto); }
+  button:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0 var(--alien), 2px 2px 0 3px var(--preto); }
+  button:focus-visible { outline: 3px dashed var(--preto); outline-offset: 5px; }
+
+  .sucesso {
+    display: none;
+    margin-top: 22px;
+    padding: 12px 16px;
+    border: 3px solid var(--preto);
+    background: var(--alien);
+    font-weight: 600;
+    font-size: .95rem;
+    transform: rotate(-1deg);
+  }
+  .sucesso.ativo { display: block; }
+
+  @media (max-width: 860px) {
+    .cartao { grid-template-columns: 1fr; box-shadow: 8px 8px 0 var(--preto); }
+    .lateral { min-height: 0; padding: 34px 26px 40px; border-right: 0; border-bottom: 4px solid var(--preto); }
+    .logo { font-size: 3.4rem; }
+    .alien { width: 110px; right: 6px; bottom: auto; top: 28px; }
+    .base { display: none; }
+    .area-form { padding: 34px 22px; }
+  }
+  @media (max-width: 480px) { .duas { grid-template-columns: 1fr; gap: 0; } }
+  @media (prefers-reduced-motion: reduce) { .alien { animation: none; transform: rotate(9deg); } * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<main class="cartao">
+  <aside class="lateral">
+    <svg class="alien" viewBox="0 0 120 150" aria-hidden="true">
+      <path d="M60 6C100 6 116 46 104 86C98 106 80 140 60 144C40 140 22 106 16 86C4 46 20 6 60 6Z" fill="#8dff2e" stroke="#0c0c0c" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M24 60C40 54 56 70 59 90C40 92 26 80 24 60Z" fill="#0c0c0c"/>
+      <path d="M96 60C80 54 64 70 61 90C80 92 94 80 96 60Z" fill="#0c0c0c"/>
+      <path d="M30 66C36 64 42 68 44 74" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M90 66C84 64 78 68 76 74" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M56 108h8" stroke="#0c0c0c" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+
+    <div class="topo">
+      <p class="logo">Anjuss</p>
+      <span class="desde">streetwear desde 1995</span>
+      <h1>Fale com a gente</h1>
+      <p>Dúvida sobre pedido, troca, lojas ou collab? Escreve aí que a gente responde em até dois dias úteis.</p>
+    </div>
+
+    <div class="base">
+      <div class="lojas">
+        <div class="loja"><b>Curitiba</b>Endereço da loja<br>(adicione aqui)</div>
+        <div class="loja"><b>Ponta Grossa</b>Endereço da loja<br>(adicione aqui)</div>
+      </div>
+      <div class="contatos">
+        <div>
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14"/><path d="M3 7l9 6 9-6"/></svg>
+          contato@anjuss.com.br
+        </div>
+        <div>
+          <svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          (00) 00000-0000
+        </div>
+        <div>
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          Atendimento: segunda a sexta, das 9h às 18h
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <section class="area-form">
+    <h2>Manda sua mensagem</h2>
+    <p class="sub">Preencha os dados abaixo. Os campos com * são obrigatórios.</p>
+
+    <form id="form" novalidate>
+      <div class="duas">
+        <div class="campo">
+          <input id="nome" name="nome" type="text" placeholder=" " required autocomplete="given-name">
+          <label for="nome">Nome *</label>
+        </div>
+        <div class="campo">
+          <input id="sobrenome" name="sobrenome" type="text" placeholder=" " autocomplete="family-name">
+          <label for="sobrenome">Sobrenome</label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <input id="email" name="email" type="email" placeholder=" " required autocomplete="email">
+        <label for="email">E-mail *</label>
+      </div>
+
+      <div class="duas">
+        <div class="campo">
+          <input id="tel" name="telefone" type="tel" placeholder=" " inputmode="numeric" autocomplete="tel" maxlength="15">
+          <label for="tel">Telefone</label>
+        </div>
+        <div class="campo">
+          <select id="assunto" name="assunto">
+            <option>Pedido ou troca</option>
+            <option>Lojas</option>
+            <option>Parcerias e collabs</option>
+            <option>Trabalhe conosco</option>
+            <option>Outro assunto</option>
+          </select>
+          <label for="assunto">Assunto *</label>
+        </div>
+      </div>
+
+      <div class="campo">
+        <select id="unidade" name="unidade">
+          <option>Loja Curitiba</option>
+          <option>Loja Ponta Grossa</option>
+          <option>Loja online</option>
+        </select>
+        <label for="unidade">Sobre qual unidade? *</label>
+      </div>
+
+      <div class="campo">
+        <textarea id="msg" name="mensagem" placeholder=" " maxlength="500" required></textarea>
+        <label for="msg">Mensagem *</label>
+        <span class="contador" id="contador">0/500</span>
+      </div>
+
+      <label class="aceite">
+        <input type="checkbox" required>
+        Concordo que meus dados sejam usados pela Anjuss para responder a este contato.
+      </label>
+
+      <button type="submit">Enviar mensagem</button>
+      <p class="sucesso" id="sucesso" role="status">Mensagem enviada! Valeu pelo contato.</p>
+    </form>
+  </section>
+</main>
+
+<script>
+  const form = document.getElementById('form');
+  const msg = document.getElementById('msg');
+  const contador = document.getElementById('contador');
+  const tel = document.getElementById('tel');
+  const sucesso = document.getElementById('sucesso');
+
+  msg.addEventListener('input', () => contador.textContent = msg.value.length + '/500');
+
+  tel.addEventListener('input', () => {
+    let v = tel.value.replace(/\D/g, '').slice(0, 11);
+    if (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2, v.length > 10 ? 7 : 6)}-${v.slice(v.length > 10 ? 7 : 6)}`;
+    else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+    tel.value = v;
+  });
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+
+    form.reset();
+    contador.textContent = '0/500';
+    sucesso.classList.add('ativo');
+    setTimeout(() => sucesso.classList.remove('ativo'), 5000);
+  });
+</script>
+</body>
+</html>
